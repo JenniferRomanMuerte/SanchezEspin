@@ -1,0 +1,216 @@
+/* ====== Layout general ====== */
+.experience-container {
+  position: relative;
+  height: var(--height-h);
+  overflow-x: clip;
+  color: var(--fg-body);
+}
+
+/* ====== Fondos ====== */
+.experience-bg {
+  position: fixed;
+  inset: 0;
+  background: url("/assets/bg_texture.webp") center/cover no-repeat;
+  z-index: -3;
+}
+
+.experience-overlay-pattern {
+  position: fixed;
+  inset: 0;
+  background: url("/assets/KnowledgeGraph_bg.webp") center/contain no-repeat;
+  opacity: 0.18;
+  z-index: -2;
+  filter: blur(1px);
+}
+
+/* ====== Contenido ====== */
+.experience-content {
+  position: relative;
+  z-index: 1;
+  padding: 2rem 1.2rem;
+  max-width: 1000px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* ====== Títulos ====== */
+.experience-title {
+  font-family: var(--font-title);
+  font-size: clamp(3.2rem, 8vw, 4.2rem);
+  color: #000;
+  text-align: center;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.experience-subtitle {
+  font-family: var(--font-title);
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  color: #000;
+  text-align: center;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+/* Hover de secciones → gradiente en títulos */
+.exp-section:hover .experience-title,
+.form-section:hover .experience-title,
+.cursos-section:hover .experience-subtitle {
+  background: var(--grad-rainbow);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Animaciones de entrada en títulos */
+
+.experience-title, .experience-subtitle {
+  animation: zoomIn 2.8s ease both;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ====== Items clicables ====== */
+.experience-item.clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.experience-item.clickable:hover {
+  transform: translateY(-3px);
+}
+
+.experience-item.clickable:hover strong {
+  background: var(--grad-rainbow);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ====== Cajas generales ====== */
+.experience-box {
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(6px);
+  padding: 1.5rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ====== Items ====== */
+.experience-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  animation: fadeInUp 1.5s ease forwards;
+  opacity: 0;
+}
+
+.experience-item:nth-child(1) { animation-delay: 0.2s; }
+.experience-item:nth-child(2) { animation-delay: 0.4s; }
+.experience-item:nth-child(3) { animation-delay: 0.6s; }
+.experience-item:nth-child(4) { animation-delay: 0.8s; }
+
+/* Iconos */
+.experience-icon {
+  font-size: 2rem;
+  color: #000;
+  flex-shrink: 0;
+  margin-right: 1rem;
+}
+
+/* Fecha */
+.experience-date {
+  font-style: italic;
+  font-size: 1.2rem;
+  color: #444;
+  opacity: 0.75;
+}
+
+/* Texto */
+.experience-text {
+  flex: 1;
+  color: #222;
+}
+
+.experience-item strong {
+  color: #000;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.experience-text strong {
+  display: inline-block;
+  margin-bottom: 0.3rem;
+}
+
+/* ====== Grid para cursos ====== */
+.experience-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.experience-card {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  padding: 1rem 1.2rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.experience-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+/* ====== Animaciones ====== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ====== Responsive ====== */
+@media (min-width: 768px) {
+  .experience-item {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .experience-date {
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .experience-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .experience-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

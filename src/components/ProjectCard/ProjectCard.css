@@ -1,0 +1,197 @@
+/* ============ Mobile first (tarjeta compacta) ============ */
+/* Animación de entrada: opacidad + Y (sin tocar rotación) */
+@keyframes fadeInCard {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- TARJETA (igual que tu código antiguo, adaptado al tamaño nuevo) ---------- */
+.project-card{
+  position: relative;
+  width: 100%;
+  max-width: 330px;                          /* compacto en móvil */
+  height: 100%;
+  margin: 0 auto;
+  border-radius: 16px;
+  background: linear-gradient(to bottom, rgba(255,255,255,.92), rgba(255,255,255,.92));
+  box-shadow: 0 8px 22px rgba(0,0,0,.88);
+  overflow: visible;                          /* el pin puede sobresalir */
+
+  /* Aceleración y 3D como antiguo */
+  will-change: transform;
+  transform: translateZ(0);
+  transform-style: preserve-3d;
+
+  /* Transiciones suaves */
+  transition: transform .28s cubic-bezier(.16,1,.3,1),
+              box-shadow .28s cubic-bezier(.16,1,.3,1);
+
+  opacity: 0;
+  animation: fadeInCard .6s ease .25s forwards;
+}
+
+/* Textura (puedes cambiar la imagen si quieres la de “sobre mí”) */
+.project-card::before{
+  content:""; position:absolute; inset:0; border-radius:16px;
+  background-image: url("/assets/paper-textures-background.jpg");
+  background-position: center;
+  background-repeat: repeat;
+  background-size: 520px auto;
+  opacity: .45;
+  filter: brightness(1) contrast(.95);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---------- HOVER (calcado de tu antiguo) ---------- */
+.project-card:hover,
+.project-card:focus-visible{
+  transform: translateY(-10px) rotateZ(-2deg) rotateX(1.6deg) scale(1.018) !important;
+  box-shadow: 0 18px 40px rgba(0,0,0,.30);
+}
+
+/* Click/active: pulsado (calcado) */
+.project-card:active{
+  transform: translateY(-5px) rotateZ(-1.2deg) rotateX(1deg) scale(1.008) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.24);
+}
+
+/* Asegura contenido por encima de textura */
+.project-content,
+.project-pin{ position: relative; z-index: 1; }
+
+/* ---------- CONTENIDO (grid estable) ---------- */
+.project-content{
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;     /* título | imagen | texto | badges */
+  row-gap: 8px;
+  height: 100%;
+  padding: 12px 14px 10px;
+  box-sizing: border-box;
+  color: #222;
+}
+
+/* ---------- PIN ---------- */
+.project-pin{
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-12deg);
+  width: 30px;
+  height: auto;
+  z-index: 3;
+  pointer-events: none;
+  transform-origin: center top;
+}
+
+/* ---------- TÍTULO (micro animación en hover) ---------- */
+.project-content h3{
+  font-family: var(--font-title);
+  font-size: clamp(1.3rem, 3.4vw, 1.5rem);
+  margin: 1.7rem 0 0;                          /* aire bajo el pin */
+  text-align: center;
+  color: var(--accent);
+  transition: transform .22s cubic-bezier(.16,1,.3,1),
+              letter-spacing .22s ease,
+              text-shadow .22s ease;
+  will-change: transform;
+}
+.project-card:hover .project-content h3,
+.project-card:focus-visible .project-content h3{
+  transform: translateY(-2px) scale(1.045) !important;
+  letter-spacing: .2px;
+  text-shadow: 0 1px 0 rgba(255,255,255,.6), 0 6px 16px rgba(0,0,0,.15);
+}
+
+/* ---------- IMAGEN (parallax en hover) ---------- */
+.project-image{
+  display: block;
+  width: 78%;                 /* compacta (móvil) */
+  max-width: 480px;
+  margin: 0.15rem auto 0.45rem;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #2222;
+  box-shadow: 0 4px 12px rgba(0,0,0,.28);
+  transform: translateZ(0);
+  transition: transform .28s cubic-bezier(.16,1,.3,1);
+}
+.project-card:hover .project-image,
+.project-card:focus-visible .project-image{
+  transform: translateZ(16px) scale(1.01) !important; /* parallax igual que antiguo */
+}
+
+/* ---------- TEXTO (clamp para no desbordar) ---------- */
+.project-content p{
+  margin: 0;
+  margin-inline: 6px;
+  padding-top: .2rem;
+
+  font-family: var(--font-base);
+  font-size: .94rem;
+  line-height: 1.5;
+  text-align: justify;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;                      /* móvil: 5 líneas */
+}
+
+/* ---------- BADGES (wrap sin desbordar) ---------- */
+.project-techs{
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: .45rem .55rem;
+  padding: .25rem .35rem .35rem;
+  box-sizing: border-box;
+}
+.tech-badge{
+  background: #fff;
+  border: .5px solid var(--accent-alt);
+  color: #333;
+  font-size: .7rem;
+  padding: .24rem .5rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* --------- Reduce motion (no anula transform del hover) --------- */
+@media (prefers-reduced-motion: reduce){
+  .project-card,
+  .project-image{
+    transition: none !important;
+  }
+}
+
+/* ============ ≥768px (único breakpoint) ============ */
+@media (min-width: 768px){
+  .project-card{ max-width: 400px; }          /* compacto en desktop */
+  .project-pin{ width: 36px; }
+
+  .project-content{
+    row-gap: 10px;
+    padding: 14px 16px 12px;
+  }
+  .project-content h3{
+    font-size: clamp(1.45rem, 2vw, 1.7rem);
+    margin-top: 1.9rem;
+  }
+  .project-image{
+    width: 80%;
+    max-width: 520px;
+    margin-inline: auto;
+  }
+  .project-content p{
+    -webkit-line-clamp: 6;                    /* más texto en pantallas grandes */
+    margin-inline: 8px;
+    font-size: .98rem;
+  }
+  .tech-badge{ font-size: .72rem; }
+}

@@ -1,0 +1,204 @@
+/* Altura útil = viewport - navbar; sin scroll accidental */
+.home{
+  /* corte global 0..100% (imagen y, tras moverse, títulos) */
+  --split-p: 50%;
+  --split-r: calc(100% - var(--split-p));
+
+  height: var(--height-h);
+  overflow: hidden;
+}
+
+/* Fondo vídeo */
+.home__bg{ position: fixed; inset: 0; z-index: 0; pointer-events: none; background:#fff; }
+.home__video{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  filter:grayscale(1) invert(1) brightness(1.56) contrast(0.96); opacity:.75;
+}
+
+/* ───────────────────────────────── Mobile-first layout ───────────────────────── */
+.home__content{
+  position: relative; z-index: 1;
+  width: 100%; max-width: 1200px; height: 100%; min-height: 0; margin: 0 auto;
+
+  display: grid;
+  grid-template-rows: auto minmax(44vh, 1fr) auto; /* título | imagen | subtítulo */
+  align-items: center; justify-items: center;
+
+  padding-block: clamp(1.2rem, 5vh, 3.2rem);
+  padding-inline: 1rem;
+  row-gap: clamp(1.2rem, 3.5vh, 2.4rem);
+
+  box-sizing: border-box;
+  text-align: center;
+  color: var(--fg-body);
+}
+
+/* La celda de la imagen se estira en vertical en móvil/tablet también */
+.home__content > .split-container{
+  align-self: stretch;
+  height: 100%;
+  min-height: 0;
+}
+
+/* ───────────────────────── Títulos base (Caveat) ───────────────────────── */
+.home__title,
+.home__title,
+.home__subtitle{
+  position: relative;
+  font-family: var(--font-title);   /* Caveat */
+  font-weight: 700;
+  text-align: center;
+  margin-inline: auto;
+  line-height: 1.05;
+  text-wrap: balance;
+  max-width: 28ch;
+  opacity: 0;
+  letter-spacing: .5px;
+
+  /* Base: móvil pequeño */
+  font-size: clamp(3.6rem, 8vw, 5.2rem);
+}
+
+/* márgenes locales */
+.home__title{    margin: 0 0 clamp(.6rem, 2vh, 1.2rem) 0; }
+.home__subtitle{ margin: clamp(.6rem, 2vh, 1.2rem) 0 0 0; }
+
+/* Subtítulo base sin colores (el color lo pone la capa rainbow) */
+.home__subtitle{
+  text-shadow: 0 1px 1px rgba(0,0,0,.15);
+  padding-right: .3rem;
+  color: inherit;
+}
+
+/* ───────────────────── Capas de texto para corte sincronizado ────────────────── */
+.home__measure{
+  visibility: hidden;
+  display: block;
+}
+
+.home__layer{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  white-space: inherit;
+  pointer-events: none;
+  will-change: clip-path;
+}
+
+/* Por defecto calculamos el corte con --cut (cada título puede tener el suyo) */
+.home__layer--mono{
+  color: #111;
+  /* mostramos izquierda → ocultamos a la derecha = 100% - cut */
+  clip-path: inset(0 calc(100% - var(--cut, 50%)) 0 0);
+}
+
+.home__layer--rainbow{
+  background: linear-gradient(90deg,#ff3b3b,#ff8a00,#ffd400,#28d764,#1ea7ff,#7a3cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 1px 1px rgba(0,0,0,.15);
+  /* mostramos derecha → ocultamos por la izquierda = cut */
+  clip-path: inset(0 0 0 var(--cut, 50%));
+}
+
+/* Estados iniciales distintos */
+.home__title{    --cut: 100%; } /* 100% mono (negro) */
+.home__subtitle{ --cut: 0%;   } /* 100% arcoíris     */
+
+/* Tras mover el slider, ambos siguen el divisor global */
+.home.has-moved .home__title,
+.home.has-moved .home__subtitle{
+  --cut: var(--split-p);
+}
+
+/* Mientras está bloqueado, no acepta interacción ni muestra cursor */
+.home.locked .split-container { pointer-events: none; cursor: default; }
+/* Cuando está listo, cursor de “resizable” */
+.home.ready  .split-container { cursor: ew-resize; }
+
+/* ───────────────── Animaciones HORIZONTALES con rebote ────────────────── */
+.from-left  { transform: translateX(-120vw); }
+.from-right { transform: translateX( 120vw); }
+
+.is-in{ opacity: 1; }
+.is-in.from-left  { animation: acrossLeft  var(--fx-dur) var(--fx-ease) both; }
+.is-in.from-right { animation: acrossRight var(--fx-dur) var(--fx-ease) both; }
+
+@keyframes acrossLeft{
+  0%   { transform: translateX(-120vw); opacity: 0; }
+  55%  { transform: translateX( 60vw);  opacity: 1; }
+  80%  { transform: translateX(-10vw); }
+  100% { transform: translateX(0); opacity: 1; }
+}
+@keyframes acrossRight{
+  0%   { transform: translateX(120vw);  opacity: 0; }
+  55%  { transform: translateX(-60vw);  opacity: 1; }
+  80%  { transform: translateX( 10vw); }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .from-left,.from-right{ transform:none; }
+  .is-in{ animation:none !important; opacity:1 !important; }
+}
+
+/* 📱➡️📲 Tablet (fila única: Título | Imagen | Subtítulo) */
+@media (min-width: 768px){
+  .home__content{
+    grid-template-rows: 1fr;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(26rem, 44vw)
+      minmax(0, 1fr);
+
+    align-items: center;
+    column-gap: clamp(1rem, 3vw, 3rem);
+    row-gap: 0;
+    text-align: left;
+    padding: 2rem 3rem;
+  }
+
+  .home__content > .split-container{
+    align-self: stretch;
+    justify-self: center;
+    height: 100%;
+    max-height: 100%;
+  }
+
+  .home__title,
+  .home__subtitle{
+    font-size: clamp(4.2rem, 6vw, 7.2rem);
+  }
+
+  .home__title{
+    place-self: center start;
+    margin-block: 0;
+    max-width: min(32ch, 42vw);
+    padding-inline: .5rem;
+  }
+  .home__subtitle{
+    place-self: center end;
+    margin-block: 0;
+    max-width: min(32ch, 42vw);
+    padding-inline: .5rem;
+  }
+
+  .home__title,
+  .home__subtitle{
+    font-size: clamp(3.4rem, 5.6vw, 6.8rem);
+  }
+}
+
+/* 💻 ≥1024px: bumps de tamaño/espacio */
+@media (min-width: 1024px){
+  .home__content{
+    max-width: min(1400px, 96vw);
+    column-gap: clamp(2rem, 5vw, 6rem);
+  }
+  .home__title,
+  .home__subtitle{
+    font-size: clamp(5rem, 4.8vw, 9rem);
+  }
+}

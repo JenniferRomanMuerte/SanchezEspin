@@ -1,0 +1,36 @@
+/* Contenedor de la imagen: dimensionado por ALTURA del track de grid */
+.split-container{
+  position: relative;
+
+  /* 🔸 clave: que la altura de la fila (1fr) mande */
+  height: 100%;
+  align-self: stretch;
+  min-height: 0;
+
+  /* el ancho se deriva de la altura + ratio */
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: 5 / 7;   /* ratio aproximado de tu androide */
+
+  overflow: hidden;
+}
+
+/* Mitades dentro del contenedor */
+.half{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;   /* escala sin recortar */
+  transition: transform 1.5s ease;
+}
+
+/* Entrada inicial */
+.half.left  { transform: translateX(-100%); }
+.half.right { transform: translateX( 100%); }
+.half.animate{ transform: translateX(0); }
+
+/* Tablet: un poco mayor si hay espacio */
+@media (min-width: 768px){
+  .split-container{ width: min(80vw, 560px); }
+}
