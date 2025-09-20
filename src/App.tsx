@@ -4,6 +4,7 @@ import Home from "./pages/Home/Home";
 import Experience from "./pages/Experience/Experience";
 import Projects from "./pages/Projects/Projects";
 import About from "./pages/About/About";
+import Footer from "./components/Footer/Footer"
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
+        <Footer />
       </div>
     </Router>
   );

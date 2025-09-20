@@ -3,7 +3,7 @@
 
 :root {
   /* ===== Colores base ===== */
-  --bg-body: #ffffff;     /* fondo */
+  --bg-body: #f5efe4;    /* fondo */
   --fg-body: #222222;     /* texto principal */
   --muted:   #666666;     /* texto secundario */
 
@@ -21,11 +21,16 @@
   --nav-hover-shadow: 0 1px 0 rgba(0, 0, 0, 0.45), 0 0 6px rgba(0, 0, 0, 0.35);
 
   /* ===== Navbar ===== */
-  --bg-nav: #111111;
+  --bg-nav: #443b28;
   --fg-nav: #ffffff;
   --nav-hover-bg: #ffffff;
-  --nav-hover-fg: #000000;
+  --nav-hover-fg: #443b28;
   --navbar-height: 6rem;
+
+    /* ===== Footer ===== */
+  --bg-footer: #443b28;
+  --fg-footer: #ffffff;
+  --footer-height: 12rem;
 
   /* ===== Acentos ===== */
   --accent: #000000;
@@ -37,7 +42,7 @@
 
   /* ===== Tipografías ===== */
   --font-base: "Roboto", sans-serif;  /* textos corridos */
-  --font-title: "Caveat", cursive;    /* títulos */
+  --font-title: "Merriweather", serif;  /* títulos */
   --font-alt: "Sora", sans-serif;     /* opcional: subtítulos, UI */
 
   /* ===== Animaciones ===== */
@@ -46,8 +51,8 @@
   --fx-delay-title: 0.1s;
   --fx-delay-sub: 0.1s;
 
-  /* ===== Altura útil (contenido sin scroll extra) ===== */
-  --height-h: calc(100svh - var(--navbar-height));
+    /* ===== Altura útil (contenido sin scroll extra) ===== */
+  --height-h: calc(100svh - var(--navbar-height) - var(--footer-height));
 }
 
 /* Reset mínimo */

@@ -1,0 +1,42 @@
+/* Colores (usa tus variables actuales) */
+:root{
+  /* beige claro del body (ajústalo si quieres) */
+  --law-beige: #efe5c4;
+  /* color marca para el icono (mismo que nav) */
+  --law-ink: #443b28;
+}
+
+/* Contenedor fijo debajo de títulos y por encima de la imagen */
+.law-bg{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;                 /* imagen z-index 0, títulos 2 */
+}
+
+/* Capa de patrón SVG (data-URI), muy sutil */
+.law-bg::after{
+  content: "";
+  position: absolute;
+  inset: -120px;              /* margen para que al animar no aparezcan bordes */
+  opacity: .16;               /* intensidad del patrón */
+  background-size: 120px 120px;
+  background-repeat: repeat;
+
+  /* Balanzas en SVG como data-URI.
+     Nota: %23 = # URL-encoded. fill-opacity baja para sutilidad. */
+  background-image: url('data:image/svg+xml;utf8,\
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">\
+  <g fill="%23443b28" fill-opacity="0.22">\
+    <path d="M60 20c1.5 0 2.7 1.2 2.7 2.7v7.6h14c1.1 0 2 .9 2 2s-.9 2-2 2h-14v45.5c7.6-1 13.5-7.5 13.5-15.4h4c0 10.6-8.7 19.3-19.3 19.3S45.3 75 45.3 64.4h4c0 7.9 5.9 14.4 13.5 15.4V34.3h-14c-1.1 0-2-.9-2-2s.9-2 2-2h14v-7.6c0-1.5 1.2-2.7 2.7-2.7zM30.2 43.6l-9.8 18h19.6l-9.8-18zm0-7l14.6 26.9c.5.9.2 2.1-.7 2.6-.3.2-.7.3-1.1.3H17.4c-1.1 0-2-.9-2-2 0-.4.1-.8.3-1.1L30.2 36.6zm59.6 7l-9.8 18h19.6l-9.8-18zm0-7l14.6 26.9c.5.9.2 2.1-.7 2.6-.3.2-.7.3-1.1.3H77c-1.1 0-2-.9-2-2 0-.4.1-.8.3-1.1L89.8 36.6z"/>\
+  </g>\
+</svg>');
+  animation: law-drift 60s linear infinite;
+  filter: blur(.2px);         /* micro-suavizado */
+}
+
+/* Deriva diagonal muy lenta */
+@keyframes law-drift{
+  from { transform: translate3d(0,0,0); }
+  to   { transform: translate3d(-220px,-220px,0); }
+}

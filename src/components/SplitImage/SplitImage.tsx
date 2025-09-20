@@ -51,13 +51,13 @@ export default function SplitImage({ disabled = false }: { disabled?: boolean })
       aria-label="Retrato mitad color, mitad blanco y negro con deslizador"
     >
       <img
-        src="/assets/androide-art.webp"
+        src="/assets/lawyer.webp"
         alt=""
         className={`half left ${animate ? "animate" : ""}`}
         style={{ clipPath: `inset(0 var(--split-r) 0 0)` }}
       />
       <img
-        src="/assets/androide.webp"
+        src="/assets/lawyer_brown.webp"
         alt=""
         className={`half right ${animate ? "animate" : ""}`}
         style={{ clipPath: `inset(0 0 0 var(--split-p))` }}
