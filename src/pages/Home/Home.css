@@ -11,7 +11,7 @@
   /* Fila 1: split (full). Fila 2: hero | areas */
   display: grid;
   grid-template-columns: 1fr 1fr;
-  --split-h: clamp(180px, 236vh, 320px);
+  --split-h: clamp(160px, 1206vh, 280px);
   grid-template-rows: var(--split-h) 1fr;
   grid-template-areas:
     "split split"
