@@ -10,16 +10,16 @@
     /* gris muy claro */ #e6eaf1 100% /* gris azulado */
   );
   --color-text: #f8f8f8; /* texto principal */
-  --color-text-muted: #a39465; /* texto secundario */
+  --color-text-muted: black; /* texto secundario */
 
-  --color-primary: #706b4d;; /* marrón corporativo */
+  --color-primary: #a39465; /* marrón corporativo */
   --color-secondary: #416894; /* azul corporativo */
 
   /* ================= NAV-BAR ================= */
 
   --navbar-bg: linear-gradient(to bottom, #f8f8f8, #e6eaf1);
 
-  
+
   /* ================= LAYOUT ================= */
   --navbar-height: 6rem;
   --footer-height: 12rem;

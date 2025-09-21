@@ -79,7 +79,7 @@
 
 /* Marrón: se revela desde la DERECHA (opuesto) */
 .home__layer--brown {
-  color: var(--color-text-muted);
+  color: var(--color-primary);
   clip-path: inset(0 0 0 var(--cut, 50%));
 }
 

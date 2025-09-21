@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import "./Home.css";
 import SplitImage from "../../components/SplitImage/SplitImage";
 import LegalBackdrop from "../../components/LegalBackdrop/LegalBackdrop";
+import Hero from "../../components/Hero/Hero";
 
 function cssMs(varName: string, fallbackMs: number) {
   const raw = getComputedStyle(document.documentElement)
