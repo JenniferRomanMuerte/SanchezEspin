@@ -52,23 +52,21 @@ export default function Home() {
       <LegalBackdrop />
 
       <section className="home__content">
-        <h1
-          className={`home__title from-left ${inView ? "is-in" : ""}`}
-          aria-label="J. Mª. Dolores Sanchez Espin"
-        >
-          <span className="home__measure" aria-hidden>
-            J. Mª. Dolores Sanchez Espin
-          </span>
-          <span className="home__layer home__layer--brown" aria-hidden>
-            J. Mª. Dolores Sanchez Espin
-          </span>
-          <span className="home__layer home__layer--blue" aria-hidden>
-            J. Mª. Dolores Sanchez Espin
-          </span>
-        </h1>
+        {/* HERO */}
+        <div className={`hero__content from-left ${inView ? "is-in" : ""}`}>
+          <h1>Tu tranquilidad legal en buenas manos</h1>
+          <p>
+            Te ayudaré a resolver tus dudas jurídicas y te brindaré la
+            asistencia legal que solo los abogados expertos pueden ofrecerte.
+          </p>
+          <a href="/contacto" className="btn">
+            Contáctame
+          </a>
+        </div>
 
         <SplitImage disabled={!canInteract} />
 
+        {/* Áreas de práctica */}
         <ul
           className={`home__areas from-right ${inView ? "is-in" : ""}`}
           aria-label="Áreas de práctica"
