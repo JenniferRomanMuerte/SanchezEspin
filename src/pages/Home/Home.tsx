@@ -3,7 +3,17 @@ import { useEffect, useState } from "react";
 import "./Home.css";
 import SplitImage from "../../components/SplitImage/SplitImage";
 import LegalBackdrop from "../../components/LegalBackdrop/LegalBackdrop";
-import Hero from "../../components/Hero/Hero";
+import { GiInjustice } from "react-icons/gi";
+
+const areas = [
+  "Derecho Civil",
+  "Derecho Penal",
+  "Derecho Fiscal",
+  "Derecho Laboral",
+  "Derecho Mercantil",
+  "Urbanismo",
+  "Extranjería",
+];
 
 function cssMs(varName: string, fallbackMs: number) {
   const raw = getComputedStyle(document.documentElement)
@@ -32,6 +42,7 @@ export default function Home() {
     const EXTRA = 1500;
     const total = Math.max(imgDur, dur + Math.max(d1, d2)) + 120 + EXTRA;
     const t = setTimeout(() => setCanInteract(true), total);
+
     return () => clearTimeout(t);
   }, []);
 
@@ -58,20 +69,18 @@ export default function Home() {
 
         <SplitImage disabled={!canInteract} />
 
-        <h2
-          className={`home__subtitle from-right ${inView ? "is-in" : ""}`}
-          aria-label="Letrada"
+        <ul
+          className={`home__areas from-right ${inView ? "is-in" : ""}`}
+          aria-label="Áreas de práctica"
+          role="list"
         >
-          <span className="home__measure" aria-hidden>
-            Letrada
-          </span>
-          <span className="home__layer home__layer--brown" aria-hidden>
-            Letrada
-          </span>
-          <span className="home__layer home__layer--blue" aria-hidden>
-            Letrada
-          </span>
-        </h2>
+          {areas.map((area) => (
+            <li key={area}>
+              <GiInjustice className="area-icon" aria-hidden />
+              <span>{area}</span>
+            </li>
+          ))}
+        </ul>
       </section>
     </main>
   );

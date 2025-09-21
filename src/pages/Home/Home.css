@@ -12,13 +12,13 @@
 .home__content {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* reparte: h1 arriba, split en medio, h2 abajo */
+  justify-content: space-between; /* h1 arriba, split medio, lista abajo */
   align-items: center;
 
-  height: 100%; /* ocupa siempre var(--height-h) */
-  max-height: 100%; /* nunca excede */
-  overflow: hidden; /* evita desbordes */
-  padding: 1rem; /* ajusta según quieras */
+  height: 100%;       /* ocupa siempre var(--height-h) */
+  max-height: 100%;   /* nunca excede */
+  overflow: hidden;   /* evita desbordes */
+  padding: 1rem;      /* ajusta según quieras */
   box-sizing: border-box;
 }
 
@@ -30,9 +30,8 @@
   z-index: 2;
 }
 
-/* ───────────────────────── Títulos ───────────────────────── */
-.home__title,
-.home__subtitle {
+/* ───────────────────────── Título ───────────────────────── */
+.home__title {
   position: relative;
   z-index: 2;
   font-family: var(--font-title);
@@ -42,22 +41,10 @@
   line-height: 1.05;
   text-wrap: balance;
   max-width: 90%;
-  opacity: 0; /* se muestran con la animación */
+  opacity: 0; /* se muestra con la animación */
   letter-spacing: 0.5px;
   font-size: clamp(2rem, 6vw, 3.5rem);
-}
-
-.home__title {
   margin: 0 0 clamp(0.6rem, 2vh, 1.2rem) 0;
-}
-.home__subtitle {
-  margin: clamp(0.6rem, 2vh, 1.2rem) 0 0 0;
-}
-
-.home__subtitle {
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  padding-right: 0.3rem;
-  color: inherit;
 }
 
 /* Medidor invisible para tamaño del texto */
@@ -66,7 +53,7 @@
   display: block;
 }
 
-/* ─────────── Capas (dos colores lisos con clip invertido) ─────────── */
+/* ─────────── Capas del título (dos colores con clip invertido) ─────────── */
 .home__layer {
   position: absolute;
   inset: 0;
@@ -90,97 +77,106 @@
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
 }
 
-/* ─────────── Estado inicial (H1 marrón completo, H2 azul completo) ─────────── */
-.home__title {
-  --cut: 0%;
-} /* muestra 100% marrón */
-.home__subtitle {
-  --cut: 100%;
-} /* muestra 100% azul   */
+/* Estado inicial (H1 marrón completo) */
+.home__title { --cut: 0%; }
 
-/* Al mover el slider, los textos pasan al color OPUESTO a la parte dominante */
-.home.has-moved .home__title,
-.home.has-moved .home__subtitle {
-  --cut: calc(100% - var(--split-p));
+/* Al mover el slider, el título pasa al color OPUESTO a la parte dominante */
+.home.has-moved .home__title { --cut: calc(100% - var(--split-p)); }
+
+/* ===== Lista de áreas con react-icons ===== */
+.home__areas{
+  position: relative;
+  z-index: 2;
+  list-style: none;
+  padding: .4rem .6rem;
+  margin: clamp(.4rem, 1.4vh, .8rem) 0 0 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: clamp(.3rem, .9vh, .6rem);
+
+  font-family: var(--font-title);
+  font-weight: 700;
+  text-align: center;
+  max-width: 90%;
+  margin-inline: auto;
+
+  color: var(--color-secondary);
+  font-size: clamp(1.2rem, 1.4vw, 1.6rem); /* más pequeño */
+  letter-spacing: .2px;
+
+  opacity: 0; /* se muestra con .is-in */
 }
+
+/* ítems: en una fila, sin partirse en 2 líneas */
+.home__areas li{
+  display: inline-flex;
+  align-items: center;
+  gap: .8rem;
+  line-height: 1.15;
+  white-space: nowrap;   /* evita saltos a dos líneas */
+  transform: translateX(6px);
+  opacity: .96;
+  transition: transform 400ms var(--fx-ease), opacity 400ms var(--fx-ease);
+}
+
+/* icono react-icons */
+.home__areas .area-icon{
+  flex: 0 0 auto;
+  font-size: clamp(1.2rem, 1.3vw, 1.6rem); /* tamaño del icono */
+  color: var(--color-primary);           /* color corporativo */
+  filter: drop-shadow(0 0 0.5px rgba(0,0,0,.15));
+}
+
+/* animación escalonada */
+.is-in.home__areas li{ transform: translateX(0); opacity: 1; }
+.home__areas li:nth-child(1){ transition-delay: 90ms; }
+.home__areas li:nth-child(2){ transition-delay: 140ms; }
+.home__areas li:nth-child(3){ transition-delay: 190ms; }
+.home__areas li:nth-child(4){ transition-delay: 240ms; }
+.home__areas li:nth-child(5){ transition-delay: 290ms; }
+.home__areas li:nth-child(6){ transition-delay: 340ms; }
+.home__areas li:nth-child(7){ transition-delay: 390ms; }
+
+/* entra con tu animación */
+.is-in.home__areas li{ transform: translateX(0); opacity: 1; }
+
+
 
 /* ───────────────────────── Interacción Split ───────────────────────── */
-.home.locked .split-container {
-  pointer-events: none;
-  cursor: default;
-}
-.home.ready .split-container {
-  cursor: ew-resize;
-}
+.home.locked .split-container { pointer-events: none; cursor: default; }
+.home.ready .split-container { cursor: ew-resize; }
 
 /* ───────────────────────── Animaciones de entrada ───────────────────────── */
-.from-left {
-  transform: translateX(-120vw);
-}
-.from-right {
-  transform: translateX(120vw);
-}
+.from-left  { transform: translateX(-120vw); }
+.from-right { transform: translateX(120vw); }
 
-.is-in {
-  opacity: 1;
-}
-.is-in.from-left {
-  animation: acrossLeft var(--fx-dur) var(--fx-ease) both;
-}
-.is-in.from-right {
-  animation: acrossRight var(--fx-dur) var(--fx-ease) both;
-}
+.is-in { opacity: 1; }
+.is-in.from-left  { animation: acrossLeft var(--fx-dur) var(--fx-ease) both; }
+.is-in.from-right { animation: acrossRight var(--fx-dur) var(--fx-ease) both; }
 
 @keyframes acrossLeft {
-  0% {
-    transform: translateX(-120vw);
-    opacity: 0;
-  }
-  55% {
-    transform: translateX(60vw);
-    opacity: 1;
-  }
-  80% {
-    transform: translateX(-10vw);
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  0% { transform: translateX(-120vw); opacity: 0; }
+  55%{ transform: translateX(60vw);  opacity: 1; }
+  80%{ transform: translateX(-10vw); }
+  100%{ transform: translateX(0);     opacity: 1; }
 }
 @keyframes acrossRight {
-  0% {
-    transform: translateX(120vw);
-    opacity: 0;
-  }
-  55% {
-    transform: translateX(-60vw);
-    opacity: 1;
-  }
-  80% {
-    transform: translateX(10vw);
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  0% { transform: translateX(120vw); opacity: 0; }
+  55%{ transform: translateX(-60vw); opacity: 1; }
+  80%{ transform: translateX(10vw);  }
+  100%{ transform: translateX(0);     opacity: 1; }
 }
 
 /* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
-  .from-left,
-  .from-right {
-    transform: none;
-  }
-  .is-in {
-    animation: none !important;
-    opacity: 1 !important;
-  }
+  .from-left, .from-right { transform: none; }
+  .is-in { animation: none !important; opacity: 1 !important; }
 }
 
 /* ───────────────────────── Responsive ───────────────────────── */
 @media (min-width: 768px) {
-   .home__content {
+  .home__content {
     display: grid; /* volvemos al grid */
     grid-template-rows: 1fr;
     grid-template-columns:
@@ -192,6 +188,7 @@
     padding: 2rem 3rem;
     text-align: left;
   }
+
   .home__content > .split-container {
     align-self: stretch;
     justify-self: center;
@@ -199,22 +196,25 @@
     max-height: 100%;
   }
 
-  .home__title,
-  .home__subtitle {
-    font-size: clamp(2.8rem, 4vw, 5rem); /* más contenido sin desbordar */
+  .home__title {
+    font-size: clamp(2.8rem, 4vw, 5rem);
     max-width: min(28ch, 40vw);
     margin: 0;
-  }
-
-  .home__title {
     place-self: center start;
     text-align: right; /* alineado hacia la imagen */
     padding-inline: 0.5rem;
   }
-  .home__subtitle {
+
+  .home__areas{
+    max-width: min(30ch, 40vw);
+    margin: 0;
     place-self: center end;
-    text-align: left; /* alineado hacia la imagen */
-    padding-inline: 0.5rem;
+    text-align: left;
+    padding-inline: .4rem;
+    font-size: clamp(1.2rem, 1.1vw, 1.5rem);
+  }
+  .home__areas .area-icon{
+    font-size: clamp(1.1rem, 2vw, 2.4rem);
   }
 }
 
@@ -225,8 +225,6 @@
     column-gap: clamp(2rem, 5vw, 6rem);
   }
 
-  .home__title,
-  .home__subtitle {
-    font-size: clamp(3.2rem, 3.8vw, 6rem);
-  }
+  .home__title  { font-size: clamp(3.2rem, 3.8vw, 6rem); }
+  .home__areas  { font-size: clamp(2rem, 2vw, 2.6rem); }
 }
