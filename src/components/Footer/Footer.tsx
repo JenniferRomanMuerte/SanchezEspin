@@ -1,5 +1,6 @@
 import "./Footer.css";
 import { FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { MdEmail } from "react-icons/md"
 
 export default function Footer() {
   return (
@@ -25,11 +26,15 @@ export default function Footer() {
           <p className="footer-item">
             <FaMapMarkerAlt className="footer-icon" />
             Avenida Catedrático Soler, 43 – 03008 Alicante
+          </p> <p className="footer-item">
+            <MdEmail className="footer-icon" />
+            mariadolores@sanchezespin.es
           </p>
           <p className="footer-item">
             <FaPhone className="footer-icon" />
             965 11 23 69
           </p>
+
         </div>
       </div>
     </footer>

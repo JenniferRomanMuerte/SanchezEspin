@@ -1,11 +1,3 @@
-/* Colores (usa tus variables actuales) */
-:root{
-  /* beige claro del body (ajústalo si quieres) */
-  --law-beige: #efe5c4;
-  /* color marca para el icono (mismo que nav) */
-  --law-ink: #443b28;
-}
-
 /* Contenedor fijo debajo de títulos y por encima de la imagen */
 .law-bg{
   position: fixed;

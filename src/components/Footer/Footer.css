@@ -1,6 +1,8 @@
 .footer{
-  background: var(--bg-footer);
-  color: var(--fg-footer);
+  background: var(--color-secondary);
+  color: var(--color-primary);
+
+  color: var(--color-text);
   /* mejor altura automática + padding que forzar height fija */
   padding: 1.2rem 1.6rem;
 }
@@ -62,7 +64,6 @@
 
 .footer-icon{
   font-size: 1.2rem;
-  color: var(--fg-footer);
 }
 
 /* Resp: apilar en pantallas pequeñas */

@@ -10,9 +10,9 @@
   justify-content: space-between;
 
   padding: 0 1.6rem;
-  background: var(--bg-nav) !important;  /* negro por defecto */
-  color: var(--fg-nav);                   /* texto blanco */
-  border-bottom: 1px solid rgba(255,255,255,.15);
+  background: var(--navbar-bg) !important;
+  color: var(--color-secondary);
+  border-bottom: 2px solid var(--color-secondary);
   box-sizing: border-box;
   transition: background-color .25s ease, color .25s ease, border-color .25s ease;
 }
@@ -47,9 +47,9 @@
   margin: 0;
   padding: .8rem;
   list-style: none;
-
-  background: var(--bg-nav);
-  color: var(--fg-nav);
+  background: var(--navbar-bg);
+  color: var(--color-secondary);
+  border-top: 2px solid var(--color-secondary);
   border-radius: 0 0 8px 8px;           /* solo esquinas inferiores redondeadas */
   box-shadow: 0 8px 20px rgba(0,0,0,.25);
   z-index: 1000;
@@ -99,12 +99,10 @@
 /* Hover/Focus del link: arcoíris para el texto */
 .nav-link:hover,
 .nav-link:focus-visible{
-  background: var(--grad-rainbow);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  text-shadow: var(--nav-hover-shadow);
+  color: #416894;
+  -webkit-text-fill-color: #416894; /* asegura compatibilidad WebKit */
+  background: none; /* quitamos gradiente */
+  text-shadow: 0 1px 1px rgba(0,0,0,.15); /* opcional, un pelín de relieve */
   transform: translateY(-1px);
 }
 
@@ -128,30 +126,33 @@
     padding: 0;
     gap: clamp(2rem, 3vw, 3.6rem);
     align-items: center;
+    border-top:none;
   }
 
   .nav-right .label{ display: inline; }
 
-  /* Inversión al pasar el cursor por la barra (fondo blanco / texto negro) */
-  .navbar:hover{
-    background: var(--nav-hover-bg) !important; /* blanco */
-    color: var(--nav-hover-fg) !important;      /* negro */
-    border-bottom: 5px solid var(--bg-nav);     /* línea negra */
+  /* Inversión al pasar el cursor por la barra */
+  .navbar:hover {
+    background: var(--color-secondary) !important;  /* igual que el estado base */
+    color: var(--color-text) !important;      /* texto pasa a color de texto */
+    border-bottom: 5px solid var(--navbar-bg);/* línea = fondo original */
   }
 
-  /* Con barra blanca, el texto del link sigue arcoíris al hover */
-  .navbar:hover .nav-link{
-    color: var(--nav-hover-fg);
-    -webkit-text-fill-color: var(--nav-hover-fg);
+  /* Enlaces dentro de la barra al hacer hover en la barra */
+  .navbar:hover .nav-link {
+    color: var(--color-text);
+    -webkit-text-fill-color: var(--color-text);
   }
-  .navbar:hover .nav-link:hover{
-    background-image: var(--grad-rainbow);
-    background-size: var(--grad-rainbow-size);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
+
+  /* Hover en cada link individual → solo movimiento */
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    transform: translateY(-1px);
+    color: inherit;  /* mantiene el color */
+    background: none;
+    text-shadow: none;
   }
+
 }
 
 /* 📱 Feedback táctil: mueve icono al tocar (sin cambiar color) */
