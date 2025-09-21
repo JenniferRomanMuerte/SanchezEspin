@@ -1,125 +1,84 @@
 /* ───────────────────────── Contenedor Home ───────────────────────── */
 .home {
-  /* divisor del SplitImage (0%..100%) */
   --split-p: 50%;
   --split-r: calc(100% - var(--split-p));
-
   height: var(--height-h);
-  position: relative; /* contexto para z-index */
+  position: relative;
 }
 
-/* Contenido (encima de imagen/capas) */
-.home__content {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* h1 arriba, split medio, lista abajo */
-  align-items: center;
-
-  height: 100%;       /* ocupa siempre var(--height-h) */
-  max-height: 100%;   /* nunca excede */
-  overflow: hidden;   /* evita desbordes */
-  padding: 1rem;      /* ajusta según quieras */
-  box-sizing: border-box;
-}
-
-/* La celda de la imagen se estira en vertical */
-.home__content > .split-container {
-  align-self: stretch;
+/* ───────────────────────── Layout móvil (por defecto) ───────────────────────── */
+.home__content{
+  /* Fila 1: split (full). Fila 2: hero | areas */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "split split"
+    "hero  areas";
   height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  gap: clamp(.5rem, 2vw, .8rem);        /* ↓ gap */
+  padding: .8rem 1rem;                  /* ↓ padding */
+  box-sizing: border-box;
+  align-items: start;
+}
+
+/* Split arriba: más pequeño para ganar espacio */
+.home__content > .split-container{
+  grid-area: split;
+  align-self: stretch;
+  justify-self: center;
+  inline-size: 100%;
+  block-size: clamp(140px, 28vh, 220px); /* ↓ altura móvil */
   min-height: 0;
   z-index: 2;
 }
 
-/* ───────────────────────── Título ───────────────────────── */
-/* H1 compacto visible arriba */
-.home__topTitle{
-  font-family: var(--font-title);
-  font-weight: 700;
-  color: var(--color-secondary);
-  text-align: center;
-  margin: .4rem 0 .2rem;             /* márgenes mínimos */
-  font-size: clamp(1.4rem, 1.8vw, 1.8rem);  /* pequeño */
-  line-height: 1.2;
-}
-
-/* Medidor invisible para tamaño del texto */
-.home__measure {
-  visibility: hidden;
-  display: block;
-}
-
-/* ─────────── Capas del título (dos colores con clip invertido) ─────────── */
-.home__layer {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  white-space: inherit;
-  pointer-events: none;
-  will-change: clip-path;
-}
-
-/* Marrón: se revela desde la DERECHA (opuesto) */
-.home__layer--brown {
-  color: var(--color-primary);
-  clip-path: inset(0 0 0 var(--cut, 50%));
-}
-
-/* Azul: se revela desde la IZQUIERDA (opuesto) */
-.home__layer--blue {
-  color: var(--color-secondary);
-  clip-path: inset(0 calc(100% - var(--cut, 50%)) 0 0);
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
-}
-
-/* Estado inicial (H1 marrón completo) */
-.home__title { --cut: 0%; }
-
-/* Al mover el slider, el título pasa al color OPUESTO a la parte dominante */
-.home.has-moved .home__title { --cut: calc(100% - var(--split-p)); }
-
-/* ===== Hero simple (sustituye al antiguo título con capas) ===== */
+/* ───────────────────────── HERO ───────────────────────── */
 .hero__content{
+  grid-area: hero;
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  align-items: center;         /* móvil centrado */
-  gap: clamp(.8rem, 2vh, 1.2rem);
-  text-align: center;
-  max-width: 90%;
-  margin-inline: auto;
-
-  /* aparece con tu animación from-left / is-in */
-  opacity: 0;
+  place-self: center; 
+  align-items: center;
+  gap: clamp(.4rem, 1.5vh, .8rem);      /* ↓ separación */
+  text-align: left;
+  max-width: 100%;
+  margin: 0;
+  opacity: 0;                           /* animación */
 }
 
 .hero__content h1{
   font-family: var(--font-title);
   font-weight: 900;
   color: var(--color-primary);
-  line-height: 1.25;
-  font-size: clamp(2.2rem, 2.4vw, 2.6rem);
-  max-width: 30ch;
+  line-height: 1.2;
+  font-size: clamp(1.8rem, 5vw, 2.2rem); /* ↓ tamaño móvil */
+  max-width: 28ch;
+  margin: 0;
 }
 
 .hero__content p{
-  font-family: var(--font-title);     /* igual que la lista */
+  font-family: var(--font-title);
   font-weight: 700;
-  color: var(--color-secondary);      /* igual que la lista */
+  color: var(--color-secondary);
   line-height: 1.25;
-  font-size: clamp(1.2rem, 1.4vw, 1.6rem);  /* = .home__areas (móvil) */
-  max-width: 30ch;
+  font-size: clamp(1.1rem, 3.6vw, 1.4rem);  /* ↓ tamaño móvil */
+  max-width: 32ch;
+  margin: 0;
 }
 
-/* Botón principal */
+/* Botón principal, un poco más compacto */
 .hero__content .btn{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: .7rem 1.1rem;
+  padding: .6rem .95rem;                 /* ↓ padding */
   border-radius: 8px;
-   font-size: clamp(1.2rem, 1.6vw, 1.4rem);
+  font-size: clamp(1.1rem, 3.2vw, 1.3rem);
   font-weight: 600;
   letter-spacing: .2px;
   color: var(--color-text);
@@ -128,63 +87,53 @@
   border: 0;
   transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
   text-decoration: none;
+  margin-top: .3rem;
 }
+.hero__content .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px rgba(0,0,0,.16); filter: brightness(1.03); }
+.hero__content .btn:active{ transform: translateY(0);    box-shadow: 0 6px 14px rgba(0,0,0,.12); }
 
-.hero__content .btn:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(0,0,0,.16);
-  filter: brightness(1.03);
-}
-
-.hero__content .btn:active{
-  transform: translateY(0);
-  box-shadow: 0 6px 14px rgba(0,0,0,.12);
-}
-
-
-/* ===== Lista de áreas con react-icons ===== */
+/* ───────────────── Lista de áreas ───────────────── */
 .home__areas{
+  grid-area: areas;
   position: relative;
   z-index: 2;
   list-style: none;
-  padding: .4rem .6rem;
-  margin: clamp(.4rem, 1.4vh, .8rem) 0 0 0;
+  padding: .2rem .3rem;                  /* ↓ padding */
+  margin: 0;
 
   display: flex;
   flex-direction: column;
-  gap: clamp(.3rem, .9vh, .6rem);
+  gap: clamp(.25rem, 1.2vw, .5rem);      /* ↓ separación */
+
+  place-self: center;   /* ⟵ centro el bloque en la celda */
+  text-align: center;
 
   font-family: var(--font-title);
   font-weight: 700;
-  text-align: center;
-  max-width: 90%;
-  margin-inline: auto;
-
+  text-align: left;
   color: var(--color-secondary);
-  font-size: clamp(1.2rem, 1.4vw, 1.6rem); /* más pequeño */
+  font-size: clamp(1.1rem, 3.6vw, 1.4rem); /* ↓ tamaño móvil */
   letter-spacing: .2px;
 
   opacity: 0; /* se muestra con .is-in */
 }
 
-/* ítems: en una fila, sin partirse en 2 líneas */
 .home__areas li{
   display: inline-flex;
   align-items: center;
-  gap: .8rem;
+  gap: .5rem;
   line-height: 1.15;
-  white-space: nowrap;   /* evita saltos a dos líneas */
+  white-space: nowrap;                   /* evita cortes en 2 líneas */
   transform: translateX(6px);
   opacity: .96;
   transition: transform 400ms var(--fx-ease), opacity 400ms var(--fx-ease);
 }
 
-/* icono react-icons */
 .home__areas .area-icon{
   flex: 0 0 auto;
-  font-size: clamp(1.2rem, 1.3vw, 1.6rem); /* tamaño del icono */
-  color: var(--color-primary);           /* color corporativo */
-  filter: drop-shadow(0 0 0.5px rgba(0,0,0,.15));
+  font-size: clamp(1rem, 3.6vw, 1.3rem); /* ↓ icono móvil */
+  color: var(--color-primary);
+  filter: drop-shadow(0 0 .5px rgba(0,0,0,.15));
 }
 
 /* animación escalonada */
@@ -197,19 +146,13 @@
 .home__areas li:nth-child(6){ transition-delay: 340ms; }
 .home__areas li:nth-child(7){ transition-delay: 390ms; }
 
-/* entra con tu animación */
-.is-in.home__areas li{ transform: translateX(0); opacity: 1; }
-
-
-
-/* ───────────────────────── Interacción Split ───────────────────────── */
+/* ───────────────── Interacción Split ───────────────── */
 .home.locked .split-container { pointer-events: none; cursor: default; }
 .home.ready .split-container { cursor: ew-resize; }
 
-/* ───────────────────────── Animaciones de entrada ───────────────────────── */
+/* ───────────────── Animaciones de entrada ───────────────── */
 .from-left  { transform: translateX(-120vw); }
 .from-right { transform: translateX(120vw); }
-
 .is-in { opacity: 1; }
 .is-in.from-left  { animation: acrossLeft var(--fx-dur) var(--fx-ease) both; }
 .is-in.from-right { animation: acrossRight var(--fx-dur) var(--fx-ease) both; }
@@ -233,65 +176,68 @@
   .is-in { animation: none !important; opacity: 1 !important; }
 }
 
-/* ───────────────────────── Responsive ───────────────────────── */
-@media (min-width: 768px) {
-  .home__content {
-    display: grid; /* volvemos al grid */
+/* ───────────────── Desktop (≥768px): 3 columnas como tenías ───────────────── */
+@media (min-width: 768px){
+  .home__content{
     grid-template-rows: 1fr;
     grid-template-columns:
       minmax(0, 1fr)
       minmax(22rem, 40vw)
       minmax(0, 1fr);
+    grid-template-areas: "hero split areas";
     align-items: center;
     column-gap: clamp(1rem, 3vw, 3rem);
     padding: 2rem 3rem;
-    text-align: left;
   }
 
-  .home__content > .split-container {
+  .home__content > .split-container{
+    grid-area: split;
     align-self: stretch;
     justify-self: center;
-    height: 100%;
+    inline-size: 100%;
+    block-size: 100%;
     max-height: 100%;
+    min-height: 0;
   }
 
-  .home__title {
-    font-size: clamp(2.8rem, 4vw, 5rem);
-    max-width: min(28ch, 40vw);
-    margin: 0;
+  .hero__content{
+    grid-area: hero;
+    max-width: min(34ch, 40vw);
+    align-items: flex-end;
+    text-align: right;
     place-self: center start;
-    text-align: right; /* alineado hacia la imagen */
-    padding-inline: 0.5rem;
+    padding-inline: .5rem;
   }
 
   .home__areas{
+    grid-area: areas;
     max-width: min(30ch, 40vw);
     margin: 0;
     place-self: center end;
-    text-align: left;
     padding-inline: .4rem;
-    font-size: clamp(1.2rem, 1.1vw, 1.5rem);
+    font-size: clamp(1.2rem, 1.1vw, 1.5rem); /* desktop igual que antes */
   }
   .home__areas .area-icon{
     font-size: clamp(1.1rem, 2vw, 2.4rem);
   }
 
-  .hero__content{
-    max-width: min(34ch, 40vw);
-    align-items: flex-end;       /* alinea contenido hacia la imagen */
-    text-align: justify;
-    place-self: center start;    /* misma celda donde iba el título */
-    padding-inline: .5rem;
+  .hero__content h1{
+    font-size: clamp(2.2rem, 2.4vw, 2.6rem); /* desktop intacto */
+  }
+  .hero__content p{
+    font-size: clamp(1.2rem, 1.1vw, 1.5rem); /* emparejado con lista */
+  }
+  .hero__content .btn{
+    font-size: clamp(1.2rem, 1.2vw, 1.3rem);
+    padding: .6rem 1rem;
   }
 }
 
-@media (min-width: 1024px) {
-  .home__content {
-    max-width: 1400px; /* limita el ancho máximo */
-    margin: 0 auto;    /* centra el bloque */
+/* ───────────────── Desktop grande ───────────────── */
+@media (min-width: 1024px){
+  .home__content{
+    max-width: 1400px;
+    margin: 0 auto;
     column-gap: clamp(2rem, 5vw, 6rem);
   }
-
-  .home__title  { font-size: clamp(3.2rem, 3.8vw, 6rem); }
-  .home__areas  { font-size: clamp(2rem, 2vw, 2.6rem); }
 }
